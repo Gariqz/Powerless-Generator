@@ -1,7 +1,7 @@
 "use server";
 
 import { calculatePowerless } from "@/lib/calculation";
-import { getPowerless, savePowerless } from "@/lib/db";
+import { getPowerless, savePowerless } from "@/lib/mysql_db";
 
 export async function calculatePowerlessAction(name: string) {
   if (!name || name.trim() === "") {

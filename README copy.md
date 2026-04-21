@@ -58,10 +58,11 @@ To change "Zenith Team" or the site name, update:
 - `app/page.tsx` (Footer and Header)
 - `components/Calculator.tsx` (Certificate badges and labels)
 
-### 4. Styling & Colors
-All visual elements use Tailwind CSS 4. Modify colors or spacing in:
-- `app/globals.css` (Animations and Global Variables)
-- `tailwind.config.js` (if applicable) or directly in component class names.
+### 5. Wasmer MySQL Integration
+The app is now configured to use Wasmer Edge's MySQL service.
+1. Create a MySQL database in the Wasmer Dashboard.
+2. In your App settings, add the `DATABASE_URL` secret (e.g., `mysql://user:pass@host:port/dbname`).
+3. The app will automatically create the `powerless_results` table on first run.
 
 ---
 

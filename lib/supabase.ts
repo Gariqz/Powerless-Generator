@@ -53,18 +53,26 @@ export async function savePowerless(name: string, percentage: number): Promise<v
 export async function getLeaderboard(names: string[]): Promise<{ name: string; percentage: number }[]> {
   if (!supabase || names.length === 0) return [];
   
+  // Normalize names for the query
+  const normalizedNames = names.map(n => n.toLowerCase().trim());
+  
   try {
     const { data, error } = await supabase
       .from('powerless_results')
       .select('name, percentage')
-      .in('name', names.map(n => n.toLowerCase().trim()))
+      .in('name', normalizedNames)
       .order('percentage', { ascending: false });
 
     if (error) {
       console.error('Supabase Leaderboard Error:', error.message);
       return [];
     }
-    return data || [];
+
+    // Capitalize names for display
+    return (data || []).map(item => ({
+      ...item,
+      name: item.name.charAt(0).toUpperCase() + item.name.slice(1)
+    }));
   } catch (err) {
     console.error('Unexpected Leaderboard Error:', err);
     return [];

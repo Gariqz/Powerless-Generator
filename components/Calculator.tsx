@@ -51,6 +51,12 @@ export function Calculator() {
         setError(data.error || "System Failure");
       } else {
         setResult(data);
+        // Save to local history
+        const history = JSON.parse(localStorage.getItem("powerless_history") || "[]");
+        if (!history.includes(data.name.toLowerCase())) {
+          const newHistory = [data.name.toLowerCase(), ...history].slice(0, 50);
+          localStorage.setItem("powerless_history", JSON.stringify(newHistory));
+        }
       }
     } catch (err) {
       setError("Connection to Zenith Mainframe lost.");

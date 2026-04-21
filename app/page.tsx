@@ -1,8 +1,18 @@
 import { Calculator } from "@/components/Calculator";
+import Link from "next/link";
+import { Trophy } from "lucide-react";
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-zinc-50 dark:bg-[#020202] text-zinc-900 dark:text-zinc-100 overflow-hidden relative">
+      <div className="absolute top-4 right-4 z-20">
+        <Link 
+          href="/leaderboard"
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[10px] font-bold uppercase tracking-widest hover:scale-105 transition-transform shadow-lg"
+        >
+          <Trophy size={14} className="text-yellow-500" /> Leaderboard
+        </Link>
+      </div>
       {/* Background blobs for aesthetic */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-zinc-200/50 dark:bg-zinc-800/10 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-zinc-200/50 dark:bg-zinc-800/10 rounded-full blur-[120px] -z-10" />

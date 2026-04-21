@@ -1,7 +1,7 @@
 "use server";
 
 import { calculatePowerless } from "@/lib/calculation";
-import { getPowerless, savePowerless } from "@/lib/supabase";
+import { getPowerless, savePowerless, getLeaderboard } from "@/lib/supabase";
 
 export async function calculatePowerlessAction(name: string) {
   if (!name || name.trim() === "") {
@@ -32,4 +32,8 @@ export async function calculatePowerlessAction(name: string) {
     percentage, 
     fromDb: false 
   };
+}
+
+export async function getLeaderboardAction(names: string[]) {
+  return await getLeaderboard(names);
 }

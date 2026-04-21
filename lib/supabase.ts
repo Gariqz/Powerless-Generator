@@ -49,3 +49,24 @@ export async function savePowerless(name: string, percentage: number): Promise<v
     console.error('Unexpected Supabase Save Error:', err);
   }
 }
+
+export async function getLeaderboard(names: string[]): Promise<{ name: string; percentage: number }[]> {
+  if (!supabase || names.length === 0) return [];
+  
+  try {
+    const { data, error } = await supabase
+      .from('powerless_results')
+      .select('name, percentage')
+      .in('name', names.map(n => n.toLowerCase().trim()))
+      .order('percentage', { ascending: false });
+
+    if (error) {
+      console.error('Supabase Leaderboard Error:', error.message);
+      return [];
+    }
+    return data || [];
+  } catch (err) {
+    console.error('Unexpected Leaderboard Error:', err);
+    return [];
+  }
+}

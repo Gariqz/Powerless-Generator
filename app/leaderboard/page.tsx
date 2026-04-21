@@ -12,12 +12,20 @@ export default function LeaderboardPage() {
 
   useEffect(() => {
     async function fetchLeaderboard() {
-      const history = JSON.parse(localStorage.getItem("powerless_history") || "[]");
-      if (history.length > 0) {
-        const results = await getLeaderboardAction(history);
-        setData(results);
+      try {
+        const history = JSON.parse(localStorage.getItem("powerless_history") || "[]");
+        console.log("Local History found:", history);
+        
+        if (history.length > 0) {
+          const results = await getLeaderboardAction(history);
+          console.log("Results from DB:", results);
+          setData(results);
+        }
+      } catch (err) {
+        console.error("Leaderboard fetch failed:", err);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     }
     fetchLeaderboard();
   }, []);

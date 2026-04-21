@@ -12,8 +12,12 @@ export const supabase = (supabaseUrl && supabaseAnonKey)
   : null;
 
 export async function getPowerless(name: string): Promise<number | null> {
-  if (!supabase) return null;
+  if (!supabase) {
+    console.error('Supabase client not initialized - check your environment variables!');
+    return null;
+  }
   const normalized = name.toLowerCase().trim();
+  console.log(`Checking database for: ${normalized}`);
   
   try {
     const { data, error } = await supabase
@@ -26,6 +30,7 @@ export async function getPowerless(name: string): Promise<number | null> {
       console.error('Supabase Fetch Error:', error.message);
       return null;
     }
+    console.log(`Found result for ${normalized}: ${data?.percentage}`);
     return data?.percentage ?? null;
   } catch (err) {
     console.error('Unexpected Supabase Error:', err);
@@ -36,6 +41,7 @@ export async function getPowerless(name: string): Promise<number | null> {
 export async function savePowerless(name: string, percentage: number): Promise<void> {
   if (!supabase) return;
   const normalized = name.toLowerCase().trim();
+  console.log(`Saving to database: ${normalized} = ${percentage}%`);
   
   try {
     const { error } = await supabase
@@ -43,7 +49,9 @@ export async function savePowerless(name: string, percentage: number): Promise<v
       .upsert({ name: normalized, percentage }, { onConflict: 'name' });
 
     if (error) {
-      console.error('Supabase Save Error:', error.message);
+      console.error('Supabase Save Error details:', JSON.stringify(error, null, 2));
+    } else {
+      console.log(`Successfully saved ${normalized}`);
     }
   } catch (err) {
     console.error('Unexpected Supabase Save Error:', err);
